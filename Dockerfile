@@ -23,6 +23,8 @@ ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extra
 ENV NCCL_DEBUG=INFO
 ENV HOROVOD_GPU_ALLREDUCE=NCCL
 
+COPY conda_env.yml .
+
 # Install Common Dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
