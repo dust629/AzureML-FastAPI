@@ -109,62 +109,62 @@ RUN wget -qO /tmp/miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-${
     rm /tmp/miniconda.sh && \
     find / -type d -name __pycache__ | xargs rm -rf
 
-# Open-MPI-UCX installation
-RUN mkdir /tmp/ucx && \
-    cd /tmp/ucx && \
-        wget -q https://github.com/openucx/ucx/releases/download/v1.9.0/ucx-1.9.0.tar.gz && \
-        tar zxf ucx-1.9.0.tar.gz && \
-	cd ucx-1.9.0 && \
-        ./configure --prefix=/usr/local --enable-optimizations --disable-assertions --disable-params-check --enable-mt && \
-        make -j $(nproc --all) && \
-        make install && \
-        rm -rf /tmp/ucx
+# # Open-MPI-UCX installation
+# RUN mkdir /tmp/ucx && \
+#     cd /tmp/ucx && \
+#         wget -q https://github.com/openucx/ucx/releases/download/v1.9.0/ucx-1.9.0.tar.gz && \
+#         tar zxf ucx-1.9.0.tar.gz && \
+# 	cd ucx-1.9.0 && \
+#         ./configure --prefix=/usr/local --enable-optimizations --disable-assertions --disable-params-check --enable-mt && \
+#         make -j $(nproc --all) && \
+#         make install && \
+#         rm -rf /tmp/ucx
 
-# Open-MPI installation
-ENV OPENMPI_VERSION 4.1.0
-RUN mkdir /tmp/openmpi && \
-    cd /tmp/openmpi && \
-    wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-${OPENMPI_VERSION}.tar.gz && \
-    tar zxf openmpi-${OPENMPI_VERSION}.tar.gz && \
-    cd openmpi-${OPENMPI_VERSION} && \
-    ./configure --with-ucx=/usr/local/ --enable-mca-no-build=btl-uct --enable-orterun-prefix-by-default && \
-    make -j $(nproc) all && \
-    make install && \
-    ldconfig && \
-    rm -rf /tmp/openmpi
+# # Open-MPI installation
+# ENV OPENMPI_VERSION 4.1.0
+# RUN mkdir /tmp/openmpi && \
+#     cd /tmp/openmpi && \
+#     wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-${OPENMPI_VERSION}.tar.gz && \
+#     tar zxf openmpi-${OPENMPI_VERSION}.tar.gz && \
+#     cd openmpi-${OPENMPI_VERSION} && \
+#     ./configure --with-ucx=/usr/local/ --enable-mca-no-build=btl-uct --enable-orterun-prefix-by-default && \
+#     make -j $(nproc) all && \
+#     make install && \
+#     ldconfig && \
+#     rm -rf /tmp/openmpi
     	
-# Msodbcsql17 installation
-RUN apt-get update && \
-    apt-get install -y curl && \
-    curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-    curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
-    apt-get update && \
-    ACCEPT_EULA=Y apt-get install -y msodbcsql17 unixodbc-dev
+# # Msodbcsql17 installation
+# RUN apt-get update && \
+#     apt-get install -y curl && \
+#     curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
+#     curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
+#     apt-get update && \
+#     ACCEPT_EULA=Y apt-get install -y msodbcsql17 unixodbc-dev
 
-#Cmake Installation
-RUN apt-get update && \
-    apt-get install -y cmake
+# #Cmake Installation
+# RUN apt-get update && \
+#     apt-get install -y cmake
 
-# rdma-core v30.0 for Mlnx_ofed_5_1_2 as user space driver
-RUN mkdir /tmp/rdma-core && \
-    cd /tmp/rdma-core && \
-    git clone --branch v30.0 https://github.com/linux-rdma/rdma-core && \
-    cd /tmp/rdma-core/rdma-core && \
-    debian/rules binary && \
-    dpkg -i ../*.deb && \
-    rm -rf /tmp/rdma-core
+# # rdma-core v30.0 for Mlnx_ofed_5_1_2 as user space driver
+# RUN mkdir /tmp/rdma-core && \
+#     cd /tmp/rdma-core && \
+#     git clone --branch v30.0 https://github.com/linux-rdma/rdma-core && \
+#     cd /tmp/rdma-core/rdma-core && \
+#     debian/rules binary && \
+#     dpkg -i ../*.deb && \
+#     rm -rf /tmp/rdma-core
 
-#Install latest version of nccl-rdma-sharp-plugins
-RUN cd /tmp && \
-    mkdir -p /usr/local/nccl-rdma-sharp-plugins && \
-    apt install -y dh-make zlib1g-dev && \
-    git clone -b v2.1.0 https://github.com/Mellanox/nccl-rdma-sharp-plugins.git && \
-    cd nccl-rdma-sharp-plugins && \
-    ./autogen.sh && \
-    ./configure --prefix=/usr/local/nccl-rdma-sharp-plugins --with-cuda=/usr/local/cuda --without-ucx && \
-    make && \
-    make install
+# #Install latest version of nccl-rdma-sharp-plugins
+# RUN cd /tmp && \
+#     mkdir -p /usr/local/nccl-rdma-sharp-plugins && \
+#     apt install -y dh-make zlib1g-dev && \
+#     git clone -b v2.1.0 https://github.com/Mellanox/nccl-rdma-sharp-plugins.git && \
+#     cd nccl-rdma-sharp-plugins && \
+#     ./autogen.sh && \
+#     ./configure --prefix=/usr/local/nccl-rdma-sharp-plugins --with-cuda=/usr/local/cuda --without-ucx && \
+#     make && \
+#     make install
 
 
-# set env var to find nccl rdma plugins inside this container
-ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/nccl-rdma-sharp-plugins/lib
+# # set env var to find nccl rdma plugins inside this container
+# ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/nccl-rdma-sharp-plugins/lib
