@@ -1,5 +1,3 @@
-import flask
-
 print("Container works!")
 
 from azureml.train.automl import AutoMLConfig
