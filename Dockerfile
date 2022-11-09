@@ -14,7 +14,6 @@ FROM nvidia/cuda:11.2.2-cudnn8-devel-ubuntu20.04
 
 USER root:root
 
-ENV http_proxy 204.79.90.44:8080
 ENV com.nvidia.cuda.version $CUDA_VERSION
 ENV com.nvidia.volumes.needed nvidia_driver
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
