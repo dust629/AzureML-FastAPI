@@ -21,11 +21,12 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64
 ENV NCCL_DEBUG=INFO
 ENV HOROVOD_GPU_ALLREDUCE=NCCL
+ENV http_proxy http://204.79.90.44:8080
 
 COPY conda_env.yml .
 
 # Install Common Dependencies
-RUN http_proxy=http://204.79.90.44:8080 apt-get update && \
+RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     # SSH and RDMA
     libmlx4-1 \
