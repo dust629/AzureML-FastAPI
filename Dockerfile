@@ -22,6 +22,7 @@ ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extra
 ENV NCCL_DEBUG=INFO
 ENV HOROVOD_GPU_ALLREDUCE=NCCL
 ENV http_proxy http://204.79.90.44:8080
+ENV https_proxy http://204.79.90.44:8080
 
 COPY conda_env.yml .
 
