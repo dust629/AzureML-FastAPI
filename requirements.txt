@@ -1,0 +1,9 @@
+cmdstanpy==0.9.5
+setuptools-git>=1.2
+azureml-train-automl-runtime==1.45.0
+inference-schema
+azureml-interpret==1.45.0
+azureml-defaults==1.45.0
+azureml-automl-runtime
+azure-core
+azureml-widgets
