@@ -24,8 +24,8 @@ ENV HOROVOD_GPU_ALLREDUCE=NCCL
 ENV http_proxy http://204.79.90.44:8080
 ENV https_proxy http://204.79.90.44:8080
 
-# Install Common Dependencies
-RUN apt-get update && \
+#Install Common Dependencies
+RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     # SSH and RDMA
     libmlx4-1 \
