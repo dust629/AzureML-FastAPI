@@ -108,7 +108,8 @@ RUN wget -qO /tmp/miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-${
     rm -rf /opt/miniconda/pkgs && \
     rm /tmp/miniconda.sh && \
     find / -type d -name __pycache__ | xargs rm -rf
-    
+
+COPY .condarc .
 # Make RUN commands use `bash --login`:
 SHELL ["/bin/bash", "--login", "-c"]
 
