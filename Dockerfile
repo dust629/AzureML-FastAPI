@@ -24,8 +24,6 @@ ENV HOROVOD_GPU_ALLREDUCE=NCCL
 ENV http_proxy http://204.79.90.44:8080
 ENV https_proxy http://204.79.90.44:8080
 
-COPY conda_env.yml .
-
 # Install Common Dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -110,6 +108,26 @@ RUN wget -qO /tmp/miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-${
     rm -rf /opt/miniconda/pkgs && \
     rm /tmp/miniconda.sh && \
     find / -type d -name __pycache__ | xargs rm -rf
+    
+# Make RUN commands use `bash --login`:
+SHELL ["/bin/bash", "--login", "-c"]
+
+# Create the environment:
+COPY conda_env.yml .
+RUN conda env create -f conda_env.yml
+
+# Initialize conda in bash config fiiles:
+RUN conda init bash
+
+# Activate the environment, and make sure it's activated:
+RUN conda activate project_environment
+RUN echo "Make sure flask is installed:"
+COPY requirements.txt . 
+RUN pip3 install -r requirements.txt --proxy http:204.79.90.44:8080
+
+# The code to run when container is started:
+COPY run.py .
+#ENTRYPOINT ["python", "run.py"]
 
 # # Open-MPI-UCX installation
 # RUN mkdir /tmp/ucx && \
