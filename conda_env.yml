@@ -10,11 +10,12 @@ dependencies:
   # Currently Azure ML only supports 3.8 and later.
 - python=3.7.9
 
-- pip:
-  - azureml-train-automl-runtime==1.45.0
-  - inference-schema
-  - azureml-interpret==1.45.0
-  - azureml-defaults==1.45.0
+- pip
+# - pip:
+#   - azureml-train-automl-runtime==1.45.0
+#   - inference-schema
+#   - azureml-interpret==1.45.0
+#   - azureml-defaults==1.45.0
 - numpy==1.21.6
 - pandas==1.1.5
 - scikit-learn==0.22.1
