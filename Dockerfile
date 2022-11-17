@@ -110,25 +110,14 @@ RUN wget -qO /tmp/miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-${
     find / -type d -name __pycache__ | xargs rm -rf
 
 COPY .condarc .
-# Make RUN commands use `bash --login`:
-SHELL ["/bin/bash", "--login", "-c"]
 
 # Create the environment:
-COPY conda_env.yml .
-RUN conda env create -f conda_env.yml
-
-# Initialize conda in bash config fiiles:
-RUN conda init bash
-
-# Activate the environment, and make sure it's activated:
-RUN conda activate project_environment
-RUN echo "Make sure flask is installed:"
-COPY requirements.txt . 
-RUN pip3 install -r requirements.txt
+COPY azure_env.yml .
+RUN conda env create -f azure_env.yml
 
 # The code to run when container is started:
 COPY run.py .
-#ENTRYPOINT ["python", "run.py"]
+ENTRYPOINT ["conda", "run", "-n", "azureml_conda", "python", "run.py"]
 
 # # Open-MPI-UCX installation
 # RUN mkdir /tmp/ucx && \
