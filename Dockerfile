@@ -124,7 +124,7 @@ RUN conda init bash
 RUN conda activate project_environment
 RUN echo "Make sure flask is installed:"
 COPY requirements.txt . 
-RUN pip3 install -r requirements.txt --proxy http:204.79.90.44:8080
+RUN pip3 install -r requirements.txt
 
 # The code to run when container is started:
 COPY run.py .
