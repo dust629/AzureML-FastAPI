@@ -15,6 +15,9 @@ dependencies:
   - azureml-automl-runtime
   - azure-core
   - azureml-widgets
+
+- fastapi
+- uvicorn[standard]
 - numpy==1.21.6
 - pandas==1.1.5
 - scikit-learn==0.22.1
